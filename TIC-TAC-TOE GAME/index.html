@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIC-TAC-TOE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <div class="w-screen h-screen bg-gray-300 flex flex-col items-center justify-evenly gap-2">
+        <h1 class="text-6xl p-5 md:text-8xl">Tic Tac Toe Game</h1>
+        <h2 class="text-2xl p-3 border-2 border-black rounded-lg hidden"></h2>
+        <div class="grid grid-cols-3 gap-0 p-10 border-2 bg-white rounded-lg">
+            <button  class="border-2 border-black p-12 border-bottom border-t-0 border-l-0" onclick="play()" name="1">1</button>
+            <button class="border-2 border-black p-12 border-bottom border-t-0" onclick="play()" name="2">2</button>
+            
+           <button class="border-2 border-black p-12 border-bottom border-t-0 border-r-0" onclick="play()" name="3">
+            3
+            </button>
+            <button class="border-2 border-black p-12 border-bottom  border-l-0" onclick="play()" name="4">
+                4
+            </button>
+            
+            <button class="border-2 border-black p-12 border-bottom " onclick="play()" name="5">
+                5
+            </button>
+            
+            <button class="border-2 border-black p-12 border-bottom  border-r-0" onclick="play()" name="6">
+                6
+            </button>
+            
+            <button class="border-2 border-black p-12 border-bottom border-b-0 border-l-0" onclick="play()" name="7">
+                7
+            </button>
+            
+            <button class="border-2 border-black p-12 border-bottom border-b-0" onclick="play()" name="8">
+                8
+            </button>
+            
+            <button class="border-2 border-black p-12 border-bottom border-b-0 border-r-0" onclick="play()" name="9">9</button>
+
+        </div>
+        <h1 id="user" class="text-4xl md:text-6xl">User</h1>
+    </div>
+</body>
+<script src="index.js"></script>
+
+</html>
