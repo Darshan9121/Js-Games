@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Match It</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="w-screen h-screen flex flex-col justify-between items-center">
+        <header class="w-full text-center p-5">
+            <h1 class="text-4xl font-bold">Card Match It Game</h1>
+            <h3 class="text-md w-full p-4 my-3 border-2 border-black rounded-lg hidden" id="notification">Notification</h3>
+        </header>
+        <main class="px-4 w-full h-full">
+            <div class=" w-full h-full grid grid-cols-2 justify-between items-center gap-5  p-10 border-2 bg-white rounded-lg md:p-4" id="board">
+                
+            </div>
+        </main>
+        <footer class="p-3 text-center">
+            <h2>Card Match It | Created By Darshan Hiragar | darshan9121</h2>
+        </footer>
+    </div>
+</body>
+<script>
+    let cards = [1,1,2,2,3,3]
+    let user_play = [];
+    let pickedCards=[];
+    let counter;
+
+    window.addEventListener("load",()=>{
+
+        for(let i=0;i<6;i++){
+        let Board = document.querySelector("#board");
+        let card = document.createElement("div");
+        card.className = "p-12 text-center bg-gray-200 hover:bg-gray-300 hover:text-2xl hover:font-bold rounded-md hover:rounded-lg md:p-16 md:text-2xl lg:p-18 ";
+        let btn = document.createElement("button");
+        btn.className="w-full h-full";
+        let hidden = Math.floor(Math.random() * (3 - 1 + 1) + 1);
+        console.log(hidden);
+        btn.innerText="?";  
+
+        btn.addEventListener("click",cardClick);
+        card.appendChild(btn);
+        Board.appendChild(card);
+    }
+});
+
+let cardClick = ()=>{
+    // alert("clided");
+}
+
+function  setNotification(msg){
+    let h2 = document.querySelector("#notification");
+    h2.className += "block";
+    h2.innerText=msg;
+}
+
+
+function closeNotification(){
+    let h2 = document.querySelector("#notification");
+    h2.classList.remove("block");
+}
+
+
+
+
+
+
+
+
+
+</script>
+</html>
