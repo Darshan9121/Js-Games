@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Card Match It</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
 </head>
 <body>
     <div class="w-screen h-screen flex flex-col justify-between items-center">
@@ -24,31 +25,162 @@
 </body>
 <script>
     let cards = [1,1,2,2,3,3]
-    let user_play = [];
+  
     let pickedCards=[];
-    let counter;
+    let pickedCardsbtnid=[];
+    let counter=0;
+    let CardSelect=false;
+    let cardNo;
+    let cardId;
+    let user_play = [];
 
+function countEle(val){
+  let count=0;
+  for (const element of user_play) {
+      if(element == val){
+          count++;
+      }
+  }
+
+  return count;
+
+}
+function random(){
+let count;
+let hidden = Math.floor(Math.random() * (3 - 1 + 1) + 1);
+// console.log(hidden);
+
+
+count = countEle(hidden);
+// console.log(hidden+" "+count);
+if(count <= 2){
+    user_play.push(hidden);
+}
+else{
+    random();
+}
+// console.log(hidden+" "+count);
+return hidden;
+
+
+}
+
+function clearButtons(){
+    setTimeout(()=>{
+        let buttons = document.getElementsByTagName("button");
+    for (const element of buttons) {
+        // console.log(element);
+         element.innerText= "?";
+
+    }
+    setSelected();
+    console.log("done");
+    },3000)
+  
+}
+
+ 
     window.addEventListener("load",()=>{
 
-        for(let i=0;i<6;i++){
+        for(let i=1;i<=6;i++){
         let Board = document.querySelector("#board");
         let card = document.createElement("div");
         card.className = "p-12 text-center bg-gray-200 hover:bg-gray-300 hover:text-2xl hover:font-bold rounded-md hover:rounded-lg md:p-16 md:text-2xl lg:p-18 ";
         let btn = document.createElement("button");
         btn.className="w-full h-full";
-        let hidden = Math.floor(Math.random() * (3 - 1 + 1) + 1);
-        console.log(hidden);
+        let hidden = document.createElement("input");
+        hidden.setAttribute("id",`private${i}`);
+        hidden.setAttribute("type","hidden");
+        hidden.setAttribute("value",random());
+        card.appendChild(hidden);
         btn.innerText="?";  
-
+        btn.name=`btn${i}`;
         btn.addEventListener("click",cardClick);
         card.appendChild(btn);
         Board.appendChild(card);
+        // console.log(card);
     }
 });
 
-let cardClick = ()=>{
-    // alert("clided");
+
+
+let setSelected = ()=>{
+
+        let buttons = document.getElementsByTagName("button");
+        console.log(typeof buttons);
+        for (const element of buttons) {
+            console.log(element.id);
+            if(pickedCardsbtnid.includes(element.name)){
+                element.innerText = getBtnValue(element.name.charAt(3));
+                console.log("setting"+element.name);
+            // }else{
+            //     console.log("not contain");
+            // }
+        }
+    console.log("done");
+    }
 }
+
+function getBtnValue(btnid){
+    let hidden = document.querySelector(`#private${btnid}`).value;
+    return hidden;
+}
+
+
+let cardClick = ()=>{
+    setSelected();
+    let btnid = event.target.name.charAt(3);
+    let hidden = document.querySelector(`#private${btnid}`).value;
+    // cardNo = hidden;
+    if(cardId != btnid){
+           
+    
+    if(CardSelect == true){
+        event.target.innerText = hidden;
+        console.log(hidden);
+        if(cardNo == hidden){
+           
+                pickedCards.push(hidden);
+                pickedCardsbtnid.push(cardId);
+                pickedCardsbtnid.push(event.target.name);
+                counter++;
+                console.log("counter:"+counter);
+                // console.log(pickedCardsbtnid);
+               
+                console.log("matched");
+          
+            
+        }
+        else{
+            // pickedCards.pop();
+           
+            cardId=0;
+            cardNo=0;
+            CardSelect=false;
+            console.log(" not matched");
+            clearButtons();}
+        }
+       else{
+      
+    CardSelect = true;
+    cardId = event.target.name;
+    cardNo = hidden;
+    event.target.innerText = hidden;
+    console.log("status:"+CardSelect);
+    console.log("cardNO:"+cardNo);
+    console.log("Hidden:"+hidden);
+    console.log("matched:"+pickedCardsbtnid);
+}} else{alert("already clicked")}
+    }
+
+
+
+
+
+
+
+
+
 
 function  setNotification(msg){
     let h2 = document.querySelector("#notification");
