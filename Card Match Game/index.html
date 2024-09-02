@@ -29,36 +29,59 @@
     let pickedCards=[];
     let pickedCardsbtnid=[];
     let counter=0;
+ 
     let CardSelect=false;
     let cardNo;
     let cardId;
     let user_play = [];
+    let notification = document.querySelector("#notification");
 
+
+    function clearFields(){
+        cardId=0;
+        cardNo=0;
+        CardSelect=false;
+    }
 function countEle(val){
-  let count=0;
-  for (const element of user_play) {
-      if(element == val){
-          count++;
+  
+    // console.table(user_play);
+//   for (const element of user_play.flat()) {
+//       if(element == val){
+//           count++;
+//       }
+//   }
+let count = 0;
+  user_play.map((value)=>{
+    
+      if(value == val)
+      {
+            count++;
+            // console.log(val+" "+count);
       }
-  }
 
-  return count;
+      return count;
+  })
+
+//   console.log(val+":"+count);
+
 
 }
 function random(){
-let count;
+
 let hidden = Math.floor(Math.random() * (3 - 1 + 1) + 1);
 // console.log(hidden);
 
-
+let count;
 count = countEle(hidden);
 // console.log(hidden+" "+count);
-if(count <= 2){
-    user_play.push(hidden);
-}
-else{
+if(count>2 ){
     random();
 }
+else{
+    console.log(hidden+"push");
+   user_play.push(hidden);
+}
+
 // console.log(hidden+" "+count);
 return hidden;
 
@@ -73,11 +96,14 @@ function clearButtons(){
          element.innerText= "?";
 
     }
+    // closeNotification();
     setSelected();
     console.log("done");
     },3000)
   
 }
+
+
 
  
     window.addEventListener("load",()=>{
@@ -92,6 +118,7 @@ function clearButtons(){
         hidden.setAttribute("id",`private${i}`);
         hidden.setAttribute("type","hidden");
         hidden.setAttribute("value",random());
+        console.log(hidden.value);
         card.appendChild(hidden);
         btn.innerText="?";  
         btn.name=`btn${i}`;
@@ -121,6 +148,12 @@ let setSelected = ()=>{
     }
 }
 
+function setWinner(){
+    setNotification("Congratulation,You Won The Game!");
+    clearButtons();
+    clearFields();
+}
+
 function getBtnValue(btnid){
     let hidden = document.querySelector(`#private${btnid}`).value;
     return hidden;
@@ -139,6 +172,10 @@ let cardClick = ()=>{
         event.target.innerText = hidden;
         console.log(hidden);
         if(cardNo == hidden){
+
+            if(counter == 3){
+                setWinner();
+            }else{
            
                 pickedCards.push(hidden);
                 pickedCardsbtnid.push(cardId);
@@ -146,18 +183,18 @@ let cardClick = ()=>{
                 counter++;
                 console.log("counter:"+counter);
                 // console.log(pickedCardsbtnid);
-               
-                console.log("matched");
+               setNotification("Congratulation Match Found!");
+            }
           
             
         }
         else{
             // pickedCards.pop();
            
-            cardId=0;
-            cardNo=0;
-            CardSelect=false;
+            clearFields();
+            setNotification("Sorry Failed!");
             console.log(" not matched");
+            
             clearButtons();}
         }
        else{
@@ -170,7 +207,14 @@ let cardClick = ()=>{
     console.log("cardNO:"+cardNo);
     console.log("Hidden:"+hidden);
     console.log("matched:"+pickedCardsbtnid);
-}} else{alert("already clicked")}
+}} else{
+    setNotification("Already Clicked!");
+    clearFields();
+}
+closeNotification();
+
+
+
     }
 
 
@@ -183,16 +227,23 @@ let cardClick = ()=>{
 
 
 function  setNotification(msg){
-    let h2 = document.querySelector("#notification");
-    h2.className += "block";
-    h2.innerText=msg;
+    // let h2 = document.querySelector("#notification");
+    notification.classList.remove("hidden");
+    notification.classList.add("block");
+    notification.textContent=msg;
 }
 
 
-function closeNotification(){
-    let h2 = document.querySelector("#notification");
-    h2.classList.remove("block");
+function closeNotification(time=1000){
+    // let h2 = document.querySelector("#notification");
+    setTimeout(() => {
+        notification.classList.remove("block");
+        notification.classList.add("hidden");
+        // alert(time);
+    }, time);
 }
+
+// console.table(user_play);
 
 
 
